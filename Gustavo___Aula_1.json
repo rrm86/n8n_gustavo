@@ -1,0 +1,100 @@
+{
+  "name": "Gustavo - Aula 1",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -80
+      ],
+      "id": "c7a4ee78-c870-410d-944d-0e5a1d562b1d",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e2d60d9-1d03-4744-8516-7a97d6e9a5da",
+              "name": "saudacao",
+              "value": "olá mundo",
+              "type": "string"
+            },
+            {
+              "id": "8d3408d2-8584-43f0-83bc-b3ce601f2383",
+              "name": "um_numero",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "18a29ae5-3f15-4c7e-8e2a-251cfd309cb3",
+              "name": "payload",
+              "value": "{ saudacao: \"olá universo\", um_numero: 2 }",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        -80
+      ],
+      "id": "70afed45-67d7-4fa5-b8c5-e9ac4b2a68e4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.payload.saudacao = item.json.payload.saudacao.toUpperCase();\n}\n$input.first().json.payload.um_numero\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        -80
+      ],
+      "id": "d620d419-9599-4b16-ba3f-8e576a57bd4e",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ddc1ddfb-8d0e-4428-9062-e25d8ad49264",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e78b4fcd0d19076a6ee572574407dbe618e0363f1c045b3c6c7549a67fe38620"
+  },
+  "id": "CLrLYFYEanSTr8DY",
+  "tags": []
+}
