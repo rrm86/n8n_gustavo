@@ -1,0 +1,140 @@
+{
+  "name": "Gustavo___Aula_1.vGustavo",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c61b3912-3ac7-4bac-9538-11a4c9781c6e",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e2d60d9-1d03-4744-8516-7a97d6e9a5da",
+              "name": "saudacao",
+              "value": "Olá, Mundo!",
+              "type": "string"
+            },
+            {
+              "id": "8d3408d2-8584-43f0-83bc-b3ce601f2383",
+              "name": "um_numero",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "18a29ae5-3f15-4c7e-8e2a-251cfd309cb3",
+              "name": "payload",
+              "value": "{ saudacao: \"olá universo\", um_numero: 2 }",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        300,
+        0
+      ],
+      "id": "cdc4f24c-a834-46e8-8a33-fd7119f4349b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "options": {
+          "systemMessage": "=Tendo como TEMA a frase descrita a seguir, escreva um texto curto de 3 linhas.\nFrase: {{ $json.saudacao }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        520,
+        0
+      ],
+      "id": "6b6c1993-1e58-41ea-8272-b0a25ba39f94",
+      "name": "AI Agent",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        260
+      ],
+      "id": "f16236ec-af34-43e3-a300-5653177f3f87",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "75FWPm8pjtVZOIzd",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5bf279c5-008b-4898-886d-b2a417d9defc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1fed09111b4a39d4afdfaed3a3d46b80fa6a46fc5be1ae5c738f03c01d7a0222"
+  },
+  "id": "CnS9oiJPNL8GeIsr",
+  "tags": []
+}
