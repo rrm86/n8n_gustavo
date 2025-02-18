@@ -1,0 +1,200 @@
+{
+  "name": "Gustavo-Aula-2",
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -240
+      ],
+      "id": "edeeb6ab-8795-40c4-a3ec-2e5ae74cdfa2",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Olá meu nome é {{ $json.name }}",
+        "options": {
+          "systemMessage": "=Soletre o nome do usuário"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        920,
+        -220
+      ],
+      "id": "992bfedb-fb00-473e-814d-476adcbcb6f0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        900,
+        40
+      ],
+      "id": "b4b5f694-a264-4b04-a147-4ffde9f3b674",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "qq7IkMAynp1D7kih",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        560,
+        -240
+      ],
+      "id": "f72fb414-49cc-4b97-a41d-659dd2c63158",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "content": "## ET(L)\nVamos explorar a API do digisac , entender o nó http request e abordar estratégias apropriadas de extração e transformação de dados"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -420
+      ],
+      "id": "01f54e20-0605-4efe-b291-0073592dd566",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        -240
+      ],
+      "id": "7958ff93-faca-4340-afa5-380737d20c7c",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        -240
+      ],
+      "id": "46346b6b-d1ab-421a-82ce-6c8c0e265906",
+      "name": "HTTP Request - Contatos"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        -20
+      ],
+      "id": "5defa672-6d14-4e4a-aafa-7b7123edb645",
+      "name": "HTTP Request - Mensages"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Contatos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - Contatos": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f2c8d370-55fc-4958-8c68-ce393f5b5c25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e78b4fcd0d19076a6ee572574407dbe618e0363f1c045b3c6c7549a67fe38620"
+  },
+  "id": "sdp6a6W7LJBsiXpw",
+  "tags": []
+}
